@@ -1,6 +1,6 @@
-# RAG in the Wild — Case Study Assignment
+# RAG in the Wild 
 
-This assignment is framed as a **case study**: you work with a real-world-style corpus (web search results across multiple domains) and implement four advanced RAG strategies—RAG Fusion, HyDE, CRAG, and Graph RAG—to see which best handles noisy retrieval and varied question types. See **ASSIGNMENT.md** for the full scenario and requirements.
+rag-pipeline-evaluator is an evaluation framework designed to test and benchmark advanced Retrieval-Augmented Generation (RAG) strategies. Built to handle a noisy, pre-crawled web corpus where relevance is not guaranteed, this repository implements and compares four distinct retrieval pipelines—RAG Fusion, HyDE, Corrective RAG (CRAG), and Graph RAG. The goal of this project is to determine the most robust, hallucination-resistant architecture for factual question-answering systems.
 
 ## Requirements
 
@@ -21,12 +21,11 @@ Copy `config/config.example.yaml` to `config/config.yaml` and set:
 
 - `dataset_path` — path to `dataset/crag_task_1_and_2_dev_v4.jsonl`
 - `embedding_model` — e.g. `all-MiniLM-L6-v2`
-- `generation_model` — model name for the LLM you use for answer generation (see below)
+- `generation_model` — model name for the LLM you use for answer generation 
 - `top_k` — number of chunks to retrieve per query
 
-**LLM / API policy:** **Do not use an OpenAI API key.** Use a **Groq** API key, or a **free** option such as **Google Gemini** (free tier), or another free/local LLM.
 
-Do not commit `config.yaml` if it contains API keys.
+
 
 ### Frontend (React)
 
@@ -39,7 +38,7 @@ npm install
 
 ## Dataset
 
-This assignment uses the **CRAG Task 1 & 2 dev v4** dataset. 
+This project uses the **CRAG Task 1 & 2 dev v4** dataset. 
 Download the dataset and place it in the `dataset/` folder yourself.
 
 - **Download (Task 1 & 2, compressed):** [crag_task_1_and_2_dev_v4.jsonl.bz2](https://github.com/facebookresearch/CRAG/raw/refs/heads/main/data/crag_task_1_and_2_dev_v4.jsonl.bz2)
