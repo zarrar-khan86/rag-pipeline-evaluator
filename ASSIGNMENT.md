@@ -1,4 +1,4 @@
-# Assignment: RAG in the Wild — A Case Study
+# RAG in the Wild — A Case Study
 
 ## The Scenario
 
@@ -14,7 +14,6 @@ You will build a **single global corpus and embedding index** from this snapshot
 
 ## Important: Folder Structure (Fixed)
 
-**You must not change the folder structure.** Do not rename, add, or remove the following directories or files. Only implement the logic inside the indicated modules.
 
 ```
 ├── dataset/
@@ -48,31 +47,6 @@ You will build a **single global corpus and embedding index** from this snapshot
 └── README.md                         # Setup and how to run
 ```
 
----
-
-## Your Task (Two Phases)
-
-### Phase 1: Build the global corpus and index (offline, once)
-
-1. **Load the data** using `data_loader`: iterate all rows.
-2. **Extract passages:** From every row, collect all retrieval units (e.g. each `page_snippet` from `search_results`, or chunk `page_result` if you use full HTML). This forms the **global corpus** of chunks.
-3. **Embed all chunks** with your chosen embedding model (e.g. sentence-transformers).
-4. **Build an index** (e.g. in-memory list of (chunk_text, embedding) with cosine search, or FAISS/numpy). Optionally **save the index** to disk so you can load it without recomputing embeddings.
-5. **Expose:** `build_index(dataset_path, ...)` and `load_index(index_path, ...)`; index has `retrieve(query_embedding, top_k) -> list of (chunk_text, score)`.
-
-Implement this in **`src/corpus.py`**.
-
-### Phase 2: For each query — retrieve and generate (online)
-
-For each user question (from the dev set or the frontend):
-
-1. **Retrieval:** Using one of the four strategies below, obtain **top-k chunks** from the **global index** (not from a per-question subset).
-2. **Generation:** Pass the query and the retrieved chunks to an LLM; return the generated answer.
-3. **Evaluation (dev set only):** Compare the answer to gold `answer` and `alt_ans`; compute accuracy per pipeline.
-
-Implement retrieval in **`src/retrieval.py`** (query → embed → index.retrieve). Implement each strategy in **`src/pipelines/*.py`**.
-
----
 
 ## Data at a Glance
 
@@ -100,17 +74,11 @@ Implement retrieval in **`src/retrieval.py`** (query → embed → index.retriev
 
 ---
 
-## Evaluation
 
-- Implement `src/evaluation.py`: compare predicted answer to `answer` and `alt_ans` (exact or normalized match).
-- Implement `run_evaluation.py`: build or load the global index once; for each dev example, run all four pipelines (each retrieves from the global index); compute **accuracy per pipeline**; print or save results.
-- Display the **retrieval score (similarity score or confidence score)** for the retrieved chunks along with the generated answer. This score should be visible either in the evaluation output or in the frontend interface when results are displayed. 
-
----
 
 ## Frontend
 
-- The frontend is a **React** app (Vite). Implement the UI in `frontend/src/App.jsx` so that a user can:
+- The frontend is a **React** app (Vite). Implemented the UI in `frontend/src/App.jsx` so that a user can:
   - Enter a **query** (or choose a sample from the dataset).
   - Select one of the **four pipelines** (RAG Fusion, HyDE, CRAG, Graph RAG).
   - Run and see **retrieved chunks** (from the global index) and the **generated answer**.
@@ -118,30 +86,7 @@ Implement retrieval in **`src/retrieval.py`** (query → embed → index.retriev
 
 ---
 
-## Deliverables
-
-1. **Code:** All implementations in the prescribed files and folders (no structure changes).
-2. **Evaluation results:** Output or file from `run_evaluation.py` showing accuracy for each pipeline.
-3. **Short report (e.g. 1–2 pages):** Written as a **recommendation to the team**: describe each pipeline in one paragraph, then say which strategy you would ship for this product and why—backed by your accuracy numbers and any patterns you noticed (e.g. fusion helping on multi-hop questions, confidence gating reducing hallucinations when retrieval is off).
-
----
-
-## Rubric (Suggested)
-
-| Item                         | Weight |
-|-----------------------------|--------|
-| Corpus + index built        | 10%    |
-| RAG Fusion implemented      | 20%    |
-| HyDE implemented            | 20%    |
-| CRAG implemented            | 25%    |
-| Graph RAG implemented       | 25%    |
-| Evaluation script & metrics | 10%    |
-| Frontend working            | 10%    |
-| Report (clarity, analysis)   | 5%     |
-
----
 
 ## References
 
 - Dataset schema: `docs/dataset.md`
-- CRAG (Corrective RAG) and Graph RAG: see course material or standard references for confidence-based retrieval and graph-augmented RAG.
