@@ -1,0 +1,27 @@
+config/config.yaml
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Large/local dataset artifacts
+dataset/
+
+# Generated index and evaluation outputs
+index/
+outputs/
+evaluation_results.json
+
+# Frontend dependencies/build output
+frontend/node_modules/
+frontend/dist/
+
+# Local documents
+*.pdf
+
+# OS/editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
